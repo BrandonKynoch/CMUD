@@ -34,6 +34,8 @@ elseif(WIN32)
         "glu32.lib;opengl32.lib"
     )
     set(CMAKE_EXE_LINKER_FLAGS "-std=gnu99 -static -static-libgcc -static-libstdc++ -mwindows")
+    
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:CONSOLE")
 else()
     list(APPEND EXTRA_LIBS
         "-lGL -lGLU -lX11"
@@ -41,5 +43,3 @@ else()
 endif()
 
 target_link_libraries(yolo-nerf glfw ${EXTRA_LIBS})
-
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:CONSOLE")
