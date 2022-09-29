@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Brandon\CurrentProjects\CMUD\YoloNerf\build\CMakeFiles\fe9c0f4e884e8d530cc5b733551768f0\uninstall.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Brandon\CurrentProjects\CMUD\YoloNerf\lib\glfw\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Brandon\CurrentProjects\CMUD\YoloNerf\build\lib\glfw\CMakeFiles\uninstall" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{F99568C1-9C31-3F5F-A3B2-22F01CE973C4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

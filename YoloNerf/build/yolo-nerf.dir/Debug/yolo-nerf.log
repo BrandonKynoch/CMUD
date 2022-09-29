@@ -1,0 +1,8 @@
+﻿  Building Custom Rule C:/Brandon/CurrentProjects/CMUD/YoloNerf/CMakeLists.txt
+  main.cpp
+LINK : warning LNK4044: unrecognized option '/std=gnu99'; ignored
+LINK : warning LNK4044: unrecognized option '/static'; ignored
+LINK : warning LNK4044: unrecognized option '/static-libgcc'; ignored
+LINK : warning LNK4044: unrecognized option '/static-libstdc++'; ignored
+LINK : warning LNK4044: unrecognized option '/mwindows'; ignored
+  yolo-nerf.vcxproj -> C:\Brandon\CurrentProjects\CMUD\YoloNerf\build\Debug\yolo-nerf.exe

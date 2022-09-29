@@ -1,0 +1,10 @@
+^C:\BRANDON\CURRENTPROJECTS\CMUD\YOLONERF\BUILD\CMAKEFILES\F499E85B65BF4A206EBA677E0A39C4B2\GENERATE.STAMP.RULE
+setlocal
+C:\Brandon\Software\Development\CMake\bin\cmake.exe -SC:/Brandon/CurrentProjects/CMUD/YoloNerf -BC:/Brandon/CurrentProjects/CMUD/YoloNerf/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Brandon/CurrentProjects/CMUD/YoloNerf/build/yolo-nerf.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

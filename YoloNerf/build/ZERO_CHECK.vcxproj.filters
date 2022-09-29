@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Brandon\CurrentProjects\CMUD\YoloNerf\build\CMakeFiles\f499e85b65bf4a206eba677e0a39c4b2\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{F99568C1-9C31-3F5F-A3B2-22F01CE973C4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

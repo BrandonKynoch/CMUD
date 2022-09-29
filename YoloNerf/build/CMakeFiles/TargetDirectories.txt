@@ -1,0 +1,10 @@
+C:/Brandon/CurrentProjects/CMUD/YoloNerf/build/CMakeFiles/yolo-nerf.dir
+C:/Brandon/CurrentProjects/CMUD/YoloNerf/build/CMakeFiles/INSTALL.dir
+C:/Brandon/CurrentProjects/CMUD/YoloNerf/build/CMakeFiles/ALL_BUILD.dir
+C:/Brandon/CurrentProjects/CMUD/YoloNerf/build/CMakeFiles/ZERO_CHECK.dir
+C:/Brandon/CurrentProjects/CMUD/YoloNerf/build/lib/glfw/CMakeFiles/uninstall.dir
+C:/Brandon/CurrentProjects/CMUD/YoloNerf/build/lib/glfw/CMakeFiles/INSTALL.dir
+C:/Brandon/CurrentProjects/CMUD/YoloNerf/build/lib/glfw/CMakeFiles/ALL_BUILD.dir
+C:/Brandon/CurrentProjects/CMUD/YoloNerf/build/lib/glfw/src/CMakeFiles/glfw.dir
+C:/Brandon/CurrentProjects/CMUD/YoloNerf/build/lib/glfw/src/CMakeFiles/update_mappings.dir
+C:/Brandon/CurrentProjects/CMUD/YoloNerf/build/lib/glfw/src/CMakeFiles/INSTALL.dir
