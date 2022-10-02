@@ -6,8 +6,15 @@
 #include <GLFW/glfw3.h>
 
 #include "globals.h"
+#include "networking.h"
+
+using namespace YoloNerf;
 
 int main(int argc, const char** argv) {
+	NetworkHandler* networkHandler = new NetworkHandler();
+
+
+	//     GLFW      ///////////////////////////////////////////////////////////////////////
 	GLFWwindow* window;
 
 	if (!glfwInit()) {

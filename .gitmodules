@@ -4,3 +4,6 @@
 [submodule "YoloNerf/lib/glfw"]
 	path = YoloNerf/lib/glfw
 	url = https://github.com/glfw/glfw
+[submodule "YoloNerf/lib/pthreads"]
+	path = YoloNerf/lib/pthreads
+	url = https://github.com/coapp-packages/pthreads
