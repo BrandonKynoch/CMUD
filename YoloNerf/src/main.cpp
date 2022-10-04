@@ -50,6 +50,7 @@ int main(int argc, const char** argv) {
 
 		glfwWaitEvents();
 
+		/*
 		if (i >= 10) {
 			glReadPixels(0, 0, FRAME_WIDTH, FRAME_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels_out);
 
@@ -73,6 +74,7 @@ int main(int argc, const char** argv) {
 			break;
 		}
 		i++;
+		*/
 	}
 
 
