@@ -29,24 +29,50 @@ int main(int argc, const char** argv) {
 	}
 
 	GLubyte* pixels = new GLubyte[FRAME_WIDTH * FRAME_HEIGHT * 3];
-	for (int x = 200; x < 500; ++x) {
-		for (int y = 300; y < 500; ++y) {
-			pixels[(y * FRAME_WIDTH * 3) + x * 3    ] = 0xff;
-			pixels[(y * FRAME_WIDTH * 3) + x * 3 + 1] = 0x00;
-			pixels[(y * FRAME_WIDTH * 3) + x * 3 + 2] = 0x00;
-		}
-	}
 
-	GLubyte* pixels_out = new GLubyte[FRAME_WIDTH * FRAME_HEIGHT * 3];
+	int cx = 0;
+	int cy = 0;
+	int ax, ay;
+
+	//GLubyte* pixels_out = new GLubyte[FRAME_WIDTH * FRAME_HEIGHT * 3];
 
 	glfwMakeContextCurrent(window);
-	glfwSwapInterval(0);
+	glfwSwapInterval(1);
 	int i = 0;
 	while (!glfwWindowShouldClose(window)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+
+
+		cx++;
+		cy+= 2;
+		if (cx + 20 >= FRAME_WIDTH) {
+			cx = 0;
+		}
+		if (cy + 10 >= FRAME_HEIGHT) {
+			cy = 0;
+		}
+
+		for (int x = 0; x < 20; ++x) {
+			for (int y = 0; y < 10; ++y) {
+				ax = cx + x;
+				ay = cy + y;
+
+				pixels[(ay * FRAME_WIDTH * 3) + ax * 3    ] = 0xff;
+				pixels[(ay * FRAME_WIDTH * 3) + ax * 3 + 1] = 0x00;
+				pixels[(ay * FRAME_WIDTH * 3) + ax * 3 + 2] = 0x00;
+			}
+		}
+
+
+
+
 		glDrawPixels(FRAME_WIDTH, FRAME_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels);
 
 		glfwSwapBuffers(window);
+
+		networkHandler->SendFrame();
 
 		glfwWaitEvents();
 

@@ -2,7 +2,13 @@
 
 using namespace YoloNerf;
 
-NetworkHandler::NetworkHandler() {
+NetworkHandler::NetworkHandler() :
+    pixels_out(NULL),
+    buffer_width(0),
+    buffer_height(0),
+    ready_to_send_frame(TRUE),
+    python_socket(-1)
+{
 #ifdef _WIN32
     // Initialize Winsock
     int iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
@@ -12,8 +18,21 @@ NetworkHandler::NetworkHandler() {
     }
 #endif
 
+    ResizePixelBuffer();
+
     pthread_t t;
     pthread_create(&t, NULL, &StaticAwaitConnections, this);
+}
+
+void NetworkHandler::ResizePixelBuffer() {
+    if (pixels_out != NULL) {
+        delete pixels_out;
+    }
+
+    buffer_width = 1000;
+    buffer_height = 500;
+
+    pixels_out = new GLubyte[buffer_width * buffer_height * 3 + (sizeof(uint32_t) * 2)];
 }
 
 void NetworkHandler::AwaitConnections() {
@@ -30,19 +49,58 @@ void NetworkHandler::AwaitConnections() {
     // bind the socket to our specified IP and port
     bind(server_socket, (struct sockaddr*) &server_address, sizeof(server_address));
 
-    listen(server_socket, 1);
+    listen(server_socket, 0);
 
-    // Wait for client to connect
-    while (TRUE) {
-        // Second parameter can tell us where the client connection is coming from
-        int client_socket = accept(server_socket, NULL, NULL);
+    python_socket = accept(server_socket, NULL, NULL);
+    printf("\n\nClient Connected!\n\n");
 
-        //pthread_create(&threads[threads_index - 1], NULL, listen_to_drone, new_drone);
-
-        // Send connection response
-        //send(new_drone->socket, network_message, sizeof(network_message), 0); // last param is optional flags
-    
-        printf("\n\nClient Connected!\n\n");
-    }
 #endif
+}
+
+void NetworkHandler::SendFrame() {
+    // Should actually have external thread only set flag on this instance
+    // The code below should execute in a separate thread so as to not freeze up user application
+    printf("%d\n", python_socket);
+    if (!ready_to_send_frame || python_socket < 0) { // Acts as a lock for this function
+        return; // Wait till next frame has rendered to try again
+    }
+    ready_to_send_frame = false;
+
+    printf("\nSending package\n");
+    
+    /// Fetch and package frame buffer
+    glReadPixels(
+        0,
+        0,
+        buffer_width,
+        buffer_height,
+        GL_RGB,
+        GL_UNSIGNED_BYTE,
+        ((void*)pixels_out) + (sizeof(uint32_t) * 2));
+
+    // Set package header
+    *((uint32_t*)((void*)pixels_out)) = buffer_width;
+    *((uint32_t*)(((void*)pixels_out) + sizeof(uint32_t))) = buffer_height;
+
+    // Send data over socket
+    int bytes_sent = 0;
+    while(bytes_sent < sizeof(pixels_out)) {
+        bytes_sent += send(python_socket, pixels_out, sizeof(pixels_out), 0);
+    }
+
+    // CHANGE THIS SO THAT PROGRAM DOESN'T FREEZE WAITING FOR CLIENT RESPONSE FROM BLOCKING
+
+    // Receive client response
+    ReceiveClientResponse(); // Blocks thread
+    printf(client_response);
+
+
+    ready_to_send_frame = true;
+}
+
+void NetworkHandler::ReceiveClientResponse() {
+    recv(python_socket, &client_response, sizeof(uint32_t), 0);
+    uint32_t package_size = *((uint32_t*) &client_response);
+    recv(python_socket, &client_response, package_size, 0);
+    client_response[package_size] = '\0';
 }
