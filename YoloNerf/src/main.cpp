@@ -72,9 +72,9 @@ int main(int argc, const char** argv) {
 
 		glfwSwapBuffers(window);
 
-		networkHandler->SendFrame();
-
 		glfwWaitEvents();
+
+		networkHandler->SendFrame();
 
 		/*
 		if (i >= 10) {

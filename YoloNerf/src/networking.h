@@ -12,7 +12,10 @@
 #elif __APPLE__ || __linux__
 #include <sys/socket.h>
 #include <netinet/in.h>
+
+#include <unistd.h>
 #endif
+
 #if __linux__
 #include <arpa/inet.h>
 #endif
@@ -22,6 +25,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 #include <GLFW/glfw3.h>
 
 #include "globals.h"
@@ -29,7 +33,7 @@
 #ifdef _WIN32
 #define PYTHON_CLIENT_PORT "28790"
 #else
-#define PYTHON_CLIENT_PORT 28754
+#define PYTHON_CLIENT_PORT 28654
 #endif
 
 
@@ -43,6 +47,7 @@ namespace YoloNerf {
 	private:
 		GLubyte* pixels_out;
 		uint32_t buffer_width, buffer_height;
+		int buffer_size; // buffer_width * buffer_height * 3 + (sizeof(uint32_t) * 2)
 		bool ready_to_send_frame;
 
 		int python_socket;
@@ -54,6 +59,7 @@ namespace YoloNerf {
 
 	public:
 		NetworkHandler();
+		~NetworkHandler();
 		void AwaitConnections();
 
 		void ResizePixelBuffer();

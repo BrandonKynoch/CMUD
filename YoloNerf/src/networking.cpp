@@ -24,6 +24,14 @@ NetworkHandler::NetworkHandler() :
     pthread_create(&t, NULL, &StaticAwaitConnections, this);
 }
 
+NetworkHandler::~NetworkHandler() {
+    if (python_socket != -1) {
+        close(python_socket);
+    }
+}
+
+
+
 void NetworkHandler::ResizePixelBuffer() {
     if (pixels_out != NULL) {
         delete pixels_out;
@@ -32,7 +40,8 @@ void NetworkHandler::ResizePixelBuffer() {
     buffer_width = 1000;
     buffer_height = 500;
 
-    pixels_out = new GLubyte[buffer_width * buffer_height * 3 + (sizeof(uint32_t) * 2)];
+    buffer_size = buffer_width * buffer_height * 3 + (sizeof(uint32_t) * 2);
+    pixels_out = new GLubyte[buffer_size];
 }
 
 void NetworkHandler::AwaitConnections() {
@@ -60,14 +69,12 @@ void NetworkHandler::AwaitConnections() {
 void NetworkHandler::SendFrame() {
     // Should actually have external thread only set flag on this instance
     // The code below should execute in a separate thread so as to not freeze up user application
-    printf("%d\n", python_socket);
+
     if (!ready_to_send_frame || python_socket < 0) { // Acts as a lock for this function
         return; // Wait till next frame has rendered to try again
     }
     ready_to_send_frame = false;
 
-    printf("\nSending package\n");
-    
     /// Fetch and package frame buffer
     glReadPixels(
         0,
@@ -76,16 +83,22 @@ void NetworkHandler::SendFrame() {
         buffer_height,
         GL_RGB,
         GL_UNSIGNED_BYTE,
-        ((void*)pixels_out) + (sizeof(uint32_t) * 2));
+        (GLubyte*)((void*)pixels_out + (sizeof(uint32_t) * 2)));
 
     // Set package header
     *((uint32_t*)((void*)pixels_out)) = buffer_width;
     *((uint32_t*)(((void*)pixels_out) + sizeof(uint32_t))) = buffer_height;
 
+    printf("Sending packet with size %d\n", buffer_size);
+    fflush(stdout);
+
     // Send data over socket
     int bytes_sent = 0;
-    while(bytes_sent < sizeof(pixels_out)) {
-        bytes_sent += send(python_socket, pixels_out, sizeof(pixels_out), 0);
+    while(bytes_sent < buffer_size) {
+        bytes_sent += send(python_socket, (void*)pixels_out + bytes_sent, buffer_size - bytes_sent, 0);
+        
+        printf("%d bytes sent of %d\n", bytes_sent, buffer_size);
+        fflush(stdout);
     }
 
     // CHANGE THIS SO THAT PROGRAM DOESN'T FREEZE WAITING FOR CLIENT RESPONSE FROM BLOCKING
@@ -101,6 +114,8 @@ void NetworkHandler::SendFrame() {
 void NetworkHandler::ReceiveClientResponse() {
     recv(python_socket, &client_response, sizeof(uint32_t), 0);
     uint32_t package_size = *((uint32_t*) &client_response);
+    printf("Receiving %d bytes\n", (int)package_size);
+    fflush(stdout);
     recv(python_socket, &client_response, package_size, 0);
     client_response[package_size] = '\0';
 }
