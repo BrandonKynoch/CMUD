@@ -89,6 +89,8 @@ void NetworkHandler::SendFrame() {
     *((uint32_t*)((void*)pixels_out)) = buffer_width;
     *((uint32_t*)(((void*)pixels_out) + sizeof(uint32_t))) = buffer_height;
 
+    // TODO: Delegate code below to separate thread. glReadPixels has to be on main thread
+
     printf("Sending packet with size %d\n", buffer_size);
     fflush(stdout);
 
@@ -105,7 +107,7 @@ void NetworkHandler::SendFrame() {
 
     // Receive client response
     ReceiveClientResponse(); // Blocks thread
-    printf(client_response);
+    printf("%s\n", client_response);
 
 
     ready_to_send_frame = true;
@@ -114,8 +116,6 @@ void NetworkHandler::SendFrame() {
 void NetworkHandler::ReceiveClientResponse() {
     recv(python_socket, &client_response, sizeof(uint32_t), 0);
     uint32_t package_size = *((uint32_t*) &client_response);
-    printf("Receiving %d bytes\n", (int)package_size);
-    fflush(stdout);
     recv(python_socket, &client_response, package_size, 0);
     client_response[package_size] = '\0';
 }
