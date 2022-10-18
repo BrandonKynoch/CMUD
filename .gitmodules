@@ -7,3 +7,6 @@
 [submodule "YoloNerf/lib/pthreads"]
 	path = YoloNerf/lib/pthreads
 	url = https://github.com/coapp-packages/pthreads
+[submodule "YoloNerf/notebooks/libs/yolov5"]
+	path = YoloNerf/notebooks/libs/yolov5
+	url = https://github.com/ultralytics/yolov5
