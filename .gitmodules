@@ -1,6 +1,3 @@
-[submodule "instant-ngp"]
-	path = instant-ngp
-	url = https://github.com/NVlabs/instant-ngp
 [submodule "YoloNerf/lib/glfw"]
 	path = YoloNerf/lib/glfw
 	url = https://github.com/glfw/glfw
@@ -10,3 +7,6 @@
 [submodule "YoloNerf/notebooks/libs/yolov5"]
 	path = YoloNerf/notebooks/libs/yolov5
 	url = https://github.com/ultralytics/yolov5
+[submodule "cmud-instant-ngp"]
+	path = cmud-instant-ngp
+	url = https://github.com/BrandonKynoch/CMUD-instant-ngp.git
